@@ -215,3 +215,6 @@ __pycache__/
 
 # Files 
 *.csv
+
+# Credentials
+.env
