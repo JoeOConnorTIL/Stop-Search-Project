@@ -218,3 +218,6 @@ __pycache__/
 
 # Credentials
 .env
+
+# Logs
+.log
