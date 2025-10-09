@@ -215,6 +215,7 @@ __pycache__/
 
 # Files 
 *.csv
+*.xlsx
 
 # Credentials
 .env
