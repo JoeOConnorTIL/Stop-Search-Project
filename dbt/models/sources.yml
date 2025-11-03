@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw
+    database: TIL_PORTFOLIO_PROJECTS
+    schema: JOC_SS_PROJ
+    tables:
+      - name: STOP_SEARCH_STAGING
+      - name: LSOA_STAGING
+      - name: LSOA_DEMOGRAPHICS_STAGING
+      - name: IMD_2019_LSOA_STAGING

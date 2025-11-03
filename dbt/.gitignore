@@ -1,5 +1,24 @@
-# you shouldn't commit these into source control
-# these are the default directory names, adjust/add to fit your needs
+# dbt artifacts and packages
 target/
 dbt_packages/
 logs/
+
+# Raw data or temp sources (optional folder for local data)
+sources/
+
+# Python virtual environments
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# OS / editor files
+.DS_Store
+.vscode/
+.idea/
+
+# Environment variables
+.env
