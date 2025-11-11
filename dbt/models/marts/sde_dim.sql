@@ -1,20 +1,21 @@
 {{config(materialized='view')}}
 
-WITH demo AS (
+WITH stop_search AS (
     SELECT *
-    FROM {{ref("stg_demographics")}}
+    FROM {{ref("stg_stop_search")}}
 )
 
 SELECT 
-eg,
-row_number() OVER (ORDER BY eg DESC) AS demo_id,
+sde,
+row_number() OVER (ORDER BY sde DESC) AS sde_id,
 CASE 
-WHEN demo_id IN (1,2,3) THEN 'White'
-WHEN demo_id IN (4) THEN 'Other'
-WHEN demo_id IN (5) THEN 'Mixed'
-WHEN demo_id IN (6,7) THEN 'Black'
-WHEN demo_id IN (8,9,10,11) THEN 'Asian'
+WHEN sde_id IN (1,2,3,4) THEN 'White'
+WHEN sde_id IN (5,6,7) THEN 'Other'
+WHEN sde_id IN (8,9,10,11) THEN 'Mixed'
+WHEN sde_id IN (12,13,14) THEN 'Black'
+WHEN sde_id IN (15,16,17,18,19) THEN 'Asian'
 END AS broad_sde
-FROM demo
-GROUP BY eg
-ORDER BY eg DESC
+FROM stop_search
+WHERE sde IS NOT NULL
+GROUP BY sde
+ORDER BY sde DESC
