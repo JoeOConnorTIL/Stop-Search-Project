@@ -12,7 +12,7 @@ ode_dim AS (
     SELECT * FROM {{ref("ode_dim")}}
 ),
 sde_dim AS (
-    SELECT * FROM {{ref("sde_dim")}}
+    SELECT * FROM {{ref("sde_dim_ss")}}
 ),
 forces_dim AS (
     SELECT * FROM {{ref("forces_dim")}}
