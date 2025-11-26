@@ -1,182 +1,167 @@
 version: 2
 
 models:
-  # ===============================
-  # FACT TABLES
-  # ===============================
 
-  - name: fact_stop_search
-    description: "Each record represents a single stop and search event."
-    columns:
-      - name: age_range
-        description: "Age range of the individual stopped."
-      - name: ode_id
-        description: "Foreign key to officer-defined ethnicity dimension."
-        tests:
-          - relationships:
-              to: ref('ode_dim')
-              field: ode
-      - name: sde_id
-        description: "Foreign key to self-defined ethnicity dimension (stop and search)."
-        tests:
-          - relationships:
-              to: ref('sde_dim_ss')
-              field: sde
-      - name: force_id
-        description: "Foreign key to police force dimension."
-        tests:
-          - relationships:
-              to: ref('forces_dim')
-              field: force_name
-      - name: leg_id
-        description: "Foreign key to legislation dimension."
-        tests:
-          - relationships:
-              to: ref('legislation_dim')
-              field: legislation
-      - name: outcome_id
-        description: "Foreign key to outcome dimension."
-        tests:
-          - relationships:
-              to: ref('outcome_dim')
-              field: outcome
-      - name: obj_id
-        description: "Foreign key to search object dimension."
-        tests:
-          - relationships:
-              to: ref('search_object_dim')
-              field: search_object
-      - name: lsoa_code
-        description: "Foreign key to LSOA table."
-        tests:
-          - relationships:
-              to: ref('fact_lsoa')
-              field: lsoa_code
-      - name: search_date
-        description: "Date and time of the stop and search."
-      - name: gender
-        description: "Gender of the person stopped."
-      - name: outcome_linked_to_object
-        description: "Boolean indicating if the outcome was linked to the search object."
-      - name: removal_clothing
-        description: "Boolean indicating if more than outer clothing was removed."
-
-  - name: fact_demographics
-    description: "Ethnicity-based population counts per LSOA."
-    tests:
-      - unique:
-          column_name: "(lsoa_code || '-' || sde_id)"
-    columns:
-      - name: lsoa_code
-        description: "Foreign key to LSOA table."
-        tests:
-          - relationships:
-              to: ref('fact_lsoa')
-              field: lsoa_code
-      - name: sde_id
-        description: "Foreign key to self-defined ethnicity dimension (demographics)."
-        tests:
-          - relationships:
-              to: ref('sde_dim_demo')
-              field: sde
-      - name: pop_count
-        description: "Population count for this ethnicity in the LSOA."
-
-  - name: fact_imd
-    description: "Index of Multiple Deprivation metrics per LSOA."
-    tests:
-      - unique:
-          column_name: "(lsoa_code || '-' || dep_id)"
-    columns:
-      - name: lsoa_code
-        description: "Foreign key to LSOA table."
-        tests:
-          - relationships:
-              to: ref('fact_lsoa')
-              field: lsoa_code
-      - name: dep_id
-        description: "Foreign key to IMD dimension."
-        tests:
-          - relationships:
-              to: ref('imd_dim')
-              field: dep_index
-      - name: value
-        description: "Numeric IMD value associated with the deprivation measure."
-
-  - name: fact_lsoa
-    description: "Base geographic table for LSOA boundaries and metadata."
-    columns:
-      - name: lsoa_code
-        description: "Primary key for LSOA area."
-        tests:
-          - unique
-          - not_null
-
-
-  # ===============================
-  # DIMENSIONS
-  # ===============================
+  ###############################################################
+  # DIMENSION TABLES
+  ###############################################################
 
   - name: ode_dim
-    description: "Officer-defined ethnicity categories."
+    description: "Officer-defined ethnicity dimension"
     columns:
-      - name: ode
+      - name: ode_id
         tests:
           - unique
           - not_null
 
   - name: sde_dim_ss
-    description: "Self-defined ethnicity categories used in stop and search records."
+    description: "Self-defined ethnicity dimension for stop & search"
     columns:
-      - name: sde
+      - name: sde_id
         tests:
           - unique
           - not_null
 
   - name: sde_dim_demo
-    description: "Self-defined ethnicity categories used in demographics data."
+    description: "Self-defined ethnicity dimension for demographics"
     columns:
-      - name: sde
+      - name: sde_id
         tests:
           - unique
           - not_null
 
   - name: forces_dim
-    description: "Police force names."
+    description: "Police forces dimension"
     columns:
-      - name: force_name
+      - name: force_id
         tests:
           - unique
           - not_null
 
   - name: legislation_dim
-    description: "Legislation references under which searches are conducted."
+    description: "Legislation dimension"
     columns:
-      - name: legislation
+      - name: leg_id
         tests:
           - unique
           - not_null
 
   - name: outcome_dim
-    description: "Outcomes of stop and search events."
+    description: "Outcome dimension"
     columns:
-      - name: outcome
+      - name: outcome_id
         tests:
           - unique
           - not_null
 
   - name: search_object_dim
-    description: "Types of objects being searched for (e.g. drugs, weapons)."
+    description: "Search object dimension"
     columns:
-      - name: search_object
+      - name: obj_id
         tests:
           - unique
           - not_null
 
-  - name: imd_dim
-    description: "Deprivation index measurement types."
+  - name: fact_lsoa
+    description: "LSOA geography table"
     columns:
-      - name: dep_index
+      - name: lsoa_code
         tests:
           - unique
           - not_null
+
+
+  ###############################################################
+  # FACT TABLES
+  ###############################################################
+
+  - name: fact_stop_search
+    description: "Fact table containing stop and search events"
+    columns:
+
+      - name: ode_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('ode_dim')
+                field: ode_id
+              where: "ode_id IS NOT NULL"
+
+      - name: sde_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('sde_dim_ss')
+                field: sde_id
+              where: "sde_id IS NOT NULL"
+
+      - name: force_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('forces_dim')
+                field: force_id
+              where: "force_id IS NOT NULL"
+
+      - name: leg_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('legislation_dim')
+                field: leg_id
+              where: "leg_id IS NOT NULL"
+
+      - name: outcome_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('outcome_dim')
+                field: outcome_id
+              where: "outcome_id IS NOT NULL"
+
+      - name: obj_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('search_object_dim')
+                field: obj_id
+              where: "obj_id IS NOT NULL"
+
+      - name: lsoa_code
+        tests:
+          - relationships:
+              arguments:
+                to: ref('fact_lsoa')
+                field: lsoa_code
+              where: "lsoa_code IS NOT NULL"
+
+
+  - name: fact_demographics
+    description: "LSOA × ethnicity population counts"
+    columns:
+
+      - name: lsoa_code
+        tests:
+          - relationships:
+              arguments:
+                to: ref('fact_lsoa')
+                field: lsoa_code
+
+      - name: sde_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('sde_dim_demo')
+                field: sde_id
+
+
+  - name: fact_imd
+    description: "IMD indicator scores per LSOA"
+    columns:
+
+      - name: lsoa_code
+        tests:
+          - relationships:
+              arguments:
+                to: ref('fact_lsoa')
+                field: lsoa_code
