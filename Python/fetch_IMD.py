@@ -6,10 +6,9 @@ import snowflake.connector
 from snowflake.connector.pandas_tools import write_pandas
 
 # Load IMD 2019 data
-file_path = Path(__file__).parent.parent / "Data" / "imd2019lsoa.csv.xlsx"
-df = pd.read_excel(file_path)
-df.columns = [c.strip().upper().replace(" ", "_") for c in df.columns]
-df["MEASUREMENT"] = df["MEASUREMENT"].str.strip()
+file_path = Path(__file__).parent.parent / "Data" / "imd2025lsoa.xlsx"
+df = pd.read_excel(file_path, sheet_name=1)
+df.columns = [c.strip().upper().replace(" ", "_").replace("(","").replace(")","").replace(",","").replace("%","PCT") for c in df.columns]
 print(f"Loaded {len(df):,} rows | Columns: {list(df.columns)}")
 
 # Load Snowflake credentials
@@ -25,7 +24,7 @@ conn = snowflake.connector.connect(
 )
 cur = conn.cursor()
 
-table_name = "IMD_2019_LSOA_STAGING"
+table_name = "IMD_2025_LSOA_STAGING"
 
 # Build table definition dynamically
 cols = []
