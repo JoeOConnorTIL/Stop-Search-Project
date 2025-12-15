@@ -1,5 +1,3 @@
-{{config(materialized='view')}}
-
 WITH lsoa AS (
     SELECT * FROM {{ref("stg_lsoa")}}
 )

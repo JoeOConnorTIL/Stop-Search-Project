@@ -17,5 +17,10 @@ clean-targets:
   - "dbt_packages"
 
 models:
-  stop_search_project:
-    # default: all models are built as views unless overridden in config() inside the model
+  +stop_search_project:
+    # Default for everything is a view
+    +materialized: view
+
+    # Override for marts folder
+    marts:
+      +materialized: table

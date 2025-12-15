@@ -1,5 +1,3 @@
-{{config(materialized='view')}}
-
 WITH raw AS (
     SELECT 
     *

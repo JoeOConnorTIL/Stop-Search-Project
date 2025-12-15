@@ -1,5 +1,3 @@
-{{config(materialized='view')}}
-
 WITH stop_search AS (
     SELECT *,
     ST_MAKEPOINT(lon,lat) AS location_point

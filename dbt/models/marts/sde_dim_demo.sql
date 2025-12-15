@@ -1,5 +1,3 @@
-{{config(materialized='view')}}
-
 WITH stop_search AS (
     SELECT *
     FROM {{ref("stg_stop_search")}}
