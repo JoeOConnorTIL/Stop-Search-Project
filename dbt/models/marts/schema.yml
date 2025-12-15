@@ -1,9 +1,8 @@
 version: 2
 
 models:
-  # ===============================
-  # FACT TABLES
-  # ===============================
+
+  # Fact tables:
 
   - name: fact_stop_search
     description: "Each record represents a single stop and search event."
@@ -109,11 +108,8 @@ models:
           - unique
           - not_null
 
-
-  # ===============================
-  # DIMENSIONS
-  # ===============================
-
+  # Dimension Tables:
+  
   - name: ode_dim
     description: "Officer-defined ethnicity categories."
     columns:
@@ -126,46 +122,69 @@ models:
     description: "Self-defined ethnicity categories used in stop and search records."
     columns:
       - name: sde
+        description: "The self-defined ethnicity given in stop and search interactions"
         tests:
           - unique
           - not_null
+      - name: sde_id
+        description: "Foreign Key to stop and search fact table"
+      - name: broad_sde
+        description: "Self defined ethnicity categorised into broader category for easy comparison with officer defined ethnicity groups"
 
   - name: sde_dim_demo
     description: "Self-defined ethnicity categories used in demographics data."
     columns:
       - name: sde
+        description: "The self defined ethinicity from the demographics data"
         tests:
           - unique
           - not_null
+      - name: sde_id
+        description: "Foreign Key to demographics fact table"
+      - name: broad_sde
+        description: "Self defined ethnicity categorised into broader category for easy comparison with officer defined ethnicity groups."
 
   - name: forces_dim
     description: "Police force names."
     columns:
       - name: force_name
+        description: "The name of the police force reporting the stop and search."
         tests:
           - unique
           - not_null
+      - name: force_id
+        description: "Foreign Key to the stop and search fact table."
 
   - name: legislation_dim
     description: "Legislation references under which searches are conducted."
     columns:
       - name: legislation
+        description: "The legislation under which the stop and search was conducted."
         tests:
           - unique
           - not_null
+      - name: leg_id
+        description: "Foreign key to the stop and search fact table."
 
   - name: outcome_dim
     description: "Outcomes of stop and search events."
     columns:
       - name: outcome
+        description: "Categorised outcomes of the stop and search incidents."
         tests:
           - unique
           - not_null
+      - name: outcome_id
+        description: "Foreign key to the stop and search fact table."
 
   - name: search_object_dim
     description: "Types of objects being searched for (e.g. drugs, weapons)."
     columns:
       - name: search_object
+        description: "The object being searched for during a stop and search interaction"
         tests:
           - unique
           - not_null
+      - name: obj_id
+        description: "Foreign key to the stop and search fact table."
+          
