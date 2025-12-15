@@ -18,9 +18,11 @@ clean-targets:
 
 models:
   +stop_search_project:
-    # Default for everything is a view
-    +materialized: view
-
-    # Override for marts folder
+    # Defining staging and intermediate as views
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    # Defining marts as tables
     marts:
       +materialized: table
