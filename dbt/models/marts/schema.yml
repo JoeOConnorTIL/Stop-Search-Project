@@ -15,19 +15,19 @@ models:
         tests:
           - relationships:
               to: ref('ode_dim')
-              field: ode
+              field: ode_id
       - name: sde_id
         description: "Foreign key to self-defined ethnicity dimension (stop and search)."
         tests:
           - relationships:
               to: ref('sde_dim_ss')
-              field: sde
+              field: sde_id
       - name: force_id
         description: "Foreign key to police force dimension."
         tests:
           - relationships:
               to: ref('forces_dim')
-              field: force_name
+              field: force_id
       - name: leg_id
         description: "Foreign key to legislation dimension."
         tests:
@@ -84,13 +84,12 @@ models:
 
   - name: fact_imd
     description: "Index of Multiple Deprivation metrics per LSOA."
-    tests:
-      - unique:
-          column_name: "(lsoa_code || '-' || dep_id)"
     columns:
       - name: lsoa21cd
         description: "LSOA code & Foreign key to LSOA table."
         tests:
+          - unique
+          - not_null
           - relationships:
               to: ref('fact_lsoa')
               field: lsoa_code
@@ -167,14 +166,6 @@ models:
     description: "Types of objects being searched for (e.g. drugs, weapons)."
     columns:
       - name: search_object
-        tests:
-          - unique
-          - not_null
-
-  - name: imd_dim
-    description: "Deprivation index measurement types."
-    columns:
-      - name: dep_index
         tests:
           - unique
           - not_null
