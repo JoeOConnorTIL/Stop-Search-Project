@@ -33,19 +33,19 @@ models:
         tests:
           - relationships:
               to: ref('legislation_dim')
-              field: legislation
+              field: leg_id
       - name: outcome_id
         description: "Foreign key to outcome dimension."
         tests:
           - relationships:
               to: ref('outcome_dim')
-              field: outcome
+              field: outcome_id
       - name: obj_id
         description: "Foreign key to search object dimension."
         tests:
           - relationships:
               to: ref('search_object_dim')
-              field: search_object
+              field: obj_id
       - name: lsoa_code
         description: "Foreign key to LSOA table."
         tests:
@@ -78,7 +78,7 @@ models:
         tests:
           - relationships:
               to: ref('sde_dim_demo')
-              field: sde
+              field: sde_id
       - name: pop_count
         description: "Population count for this ethnicity in the LSOA."
 
@@ -88,20 +88,18 @@ models:
       - unique:
           column_name: "(lsoa_code || '-' || dep_id)"
     columns:
-      - name: lsoa_code
-        description: "Foreign key to LSOA table."
+      - name: lsoa21cd
+        description: "LSOA code & Foreign key to LSOA table."
         tests:
           - relationships:
               to: ref('fact_lsoa')
               field: lsoa_code
-      - name: dep_id
-        description: "Foreign key to IMD dimension."
-        tests:
-          - relationships:
-              to: ref('imd_dim')
-              field: dep_index
-      - name: value
-        description: "Numeric IMD value associated with the deprivation measure."
+      - name: lsoa21nm
+        description: "The name of the LSOA area"
+      - name: imd_rank
+        description: "IMD ranking where 1 is the most deprived"
+      - name: imd_decile
+        description: "IMD decile where 1 is the most deprived (value of 1-10)"
 
   - name: fact_lsoa
     description: "Base geographic table for LSOA boundaries and metadata."
