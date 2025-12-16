@@ -60,4 +60,4 @@ LEFT JOIN outcome_dim oc
 ON s.outcome = oc.outcome
 LEFT JOIN search_object_dim so
 ON s.search_object = so.search_object
-WHERE s.ode IS NOT NULL AND s.involved_person = true
+WHERE s.ode IS NOT NULL AND s.involved_person = true AND l.lsoa_code IS NOT NULL
