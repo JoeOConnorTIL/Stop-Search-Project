@@ -17,7 +17,7 @@ clean-targets:
   - "dbt_packages"
 
 models:
-  +stop_search_project:
+  stop_search_project:
     # Defining staging and intermediate as views
     staging:
       +materialized: view
