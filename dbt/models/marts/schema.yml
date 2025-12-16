@@ -114,9 +114,12 @@ models:
     description: "Officer-defined ethnicity categories."
     columns:
       - name: ode
+        description: "The ethnicity which the police officer percieves the subject of the search to be"
         tests:
           - unique
           - not_null
+      - name: ode_id
+        description: "Foreign Key to the stop and search fact table"
 
   - name: sde_dim_ss
     description: "Self-defined ethnicity categories used in stop and search records."
