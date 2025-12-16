@@ -1,5 +1,3 @@
-{{config(materialized='view')}}
-
 WITH ss AS (SELECT * FROM {{ ref("stg_stop_search") }} WHERE search_object IS NOT NULL)
 
 SELECT search_object

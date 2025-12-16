@@ -18,4 +18,11 @@ clean-targets:
 
 models:
   stop_search_project:
-    # default: all models are built as views unless overridden in config() inside the model
+    # Defining staging and intermediate as views
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    # Defining marts as tables
+    marts:
+      +materialized: table

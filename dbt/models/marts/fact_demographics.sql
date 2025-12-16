@@ -1,5 +1,3 @@
-{{config(materialized='view')}}
-
 WITH demo AS (
     SELECT 
     *

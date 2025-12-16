@@ -1,5 +1,3 @@
-{{ config(materialized="view") }}
-
 WITH ss AS (SELECT * FROM {{ ref("stg_stop_search") }})
 
 SELECT legislation
